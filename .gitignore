@@ -1,0 +1,90 @@
+# ChatGPT .gitignore template 2024-07-27
+
+# User
+_obsolet/
+
+# Python-specific ignores
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.sqlite3
+*.db
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+*.csv
+*.dat
+*.db
+*.sqlite
+*.pkl
+*.tox/
+*.nox/
+*.coverage
+*.coverage.*
+*.pytest_cache/
+nosetests.xml
+coverage.xml
+*.hypothesis/
+*.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+.ipynb_checkpoints
+
+# PyCharm-specific ignores
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+*.swp
+*.swo
+
+# MacOS-specific ignores
+.DS_Store
+
+# Windows-specific ignores
+Thumbs.db
+Desktop.ini
+
+# IDE-specific ignores (for other IDEs)
+.vscode/
+*.sublime-workspace
+*.sublime-project
+*.kate-swp
+*.komodoproject
+*.project
+*.settings/
+*.classpath
+*.metadata/
+*.tmp
+*.temp
+
+# Environment and virtual environment folders
+venv/
+ENV/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python egg cache
+__egg_cache__
+
+# PyInstaller
+*.spec
+
+# Backup files
+*~
+
+# Log files
+*.log
+
+# Others
+*.lock

@@ -1,0 +1,100 @@
+Ray Casting in Tile using DDA
+javidx9
+2021-02-28
+
+î = unit vector x axe
+ĵ = unit vector y axe
+|...➔| = margin | hypotenuse
+(axe, axe)
+
+tile map = Cartesian coordinate system
+
+casting ray in 2d tile based environment
+sophisticated and optimised (+ accurate)
+determin point of first intersection between ray (start➔ to dest➔) and certain tiles
+and point of intersection with certain tiles 'behind' dest➔
+
+https://lodev.org/cgtutor/
+
+length of ray from start➔ inside tilemap,
+in certain direction,
+to intersection with certain tile(s) inside tilemap?
+tiles uniform in size; size = 1 unit in dimension; tile size = (1|1)
+   x0 x1 x2
+y0
+y1
+y2
+
+truncate cordinate
+(2.3, 0.2) = (x // î * î, y // ĵ * ĵ)
+
+dest➔ = (cosθ, sinθ) × N
+dist➔ = end➔ - start➔
+|dist➔| = √dist_x² + dist_y²
+|1 × î| (?)
+|1 × î| = dist➔y / dist➔x
+|1 × î| = √î² + (ĵ / î)²
+
+Sx = √î² + (ĵ / î)²
+Sy = √ĵ² + (î / ĵ)²
+S... scales movment from direction N î or N ĵ to |(î, ĵ)|
+
+
+1) start at first tile
+   create progress_at_current_tile➔ = (coord_x × |(î, ĵ)|, coord_y × |(ĵ, î)|)
+
+2) go to next cell
+   increment current tile coord:
+      coord x += 1 if î |(î, ĵ)| < ĵ |(ĵ, î)| or
+      coord y += 1 if ĵ |(ĵ, î)| < î |(î, ĵ)|
+   add |(î, ĵ)| or |(ĵ, î)|
+
+
+Code
+----
+
+solid_tiles = [[bool, ...], ...]
+ray_start➔
+ray_dir➔^ = Δend➔ - start➔
+unit_step_size➔^ = (√1 + (ray_dir_y / ray_dir_x)², √1 + (ray_dir_x / ray_dir_y)²)
+cur_tile_coord➔^ = (ray_start_x // tile_x, ray_start_y // tile_y)
+next_intersection➔^ = (|Δ next_intersection_x^ - ray_start_x^|, |Δ next_intersection_y^ - ray_start_y^|
+ray_dir_ortho➔^ = ...
+
+if ray_dir_x < 0:
+	ray_dir_ortho_x = -1
+	next_intersection_x = (ray_start_x^ - cur_tile_coord_x) * unit_step_size_x
+else:
+	ray_dir_ortho_x = 1
+	next_intersection_x = ((cur_tile_coord_x + 1) - ray_start_x^) * unit_step_size_x
+if ray_dir_y < 0:
+	ray_dir_ortho_y = -1
+	next_intersection_y = (ray_start_y^ - cur_tile_coord_y) * unit_step_size_y
+else:
+	ray_dir_ortho_y = 1
+	next_intersection_y = ((cur_tile_coord_y + 1) - ray_start_y^) * unit_step_size_y
+
+tile_collision = False
+max_dist = 100.0
+dist = 0.0
+while not tile_collision && \
+      dist < max_dist:
+	if next_intersection_x < next_intersection_y:
+		cur_tile_coord_x += ray_dir_ortho_x
+		dist = next_intersection_x
+		next_intersection_x += unit_step_size_x
+	else:
+		cur_tile_coord_y += ray_dir_ortho_y
+		dist = next_intersection_y
+		next_intersection_y += unit_step_size_y
+
+	if cur_tile_coord_x >= 0 && cur_tile_coord_x < tilemap_size_x && ...
+		if solid_tiles[cur_tile_coord_y][cur_tile_coord_x]:
+			tile_collision = True
+else:
+	intersection➔^ = ray_start^ + ray_dir * dist
+
+intersection * cell_size = pos_intersection➔
+		
+		
+	
